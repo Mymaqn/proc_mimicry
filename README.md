@@ -98,5 +98,6 @@ The only thing that the binary does not modify is the /proc/pid/cwd file, howeve
 
 ## Q/A
 Q: I segfault when I try running it, what is going on?
+
 A: Usually it happens if you're running the binary as non-root or you're trying to disguise the process as another binary which does not exist.
   Unfortunately because of how this works, there is no good way of giving error prompts to the user. I would recommend debugging to find the error.
