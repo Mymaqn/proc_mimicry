@@ -47,6 +47,7 @@ int main(void){
     char bin_sh[8] = "/bin/sh\x00";
     hide(bin_sh);
 
+    //Your code goes here
     while(1){
         printf("Executing...\n");
         sleep(1);
