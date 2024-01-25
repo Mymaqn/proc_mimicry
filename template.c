@@ -50,7 +50,7 @@ int main(void){
     //Your code goes here
     while(1){
         printf("Executing...\n");
-        sleep(1);
+        sleep(5);
     }
     
 }
