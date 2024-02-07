@@ -86,7 +86,6 @@ static int change_name(const char *name) {
 }
 
 struct prctl_mm_map *get_mm_map() {
-    printf("In get_mm_map\n");
     FILE *f = NULL;
     int i, fd;
     char *buf_ptr;
@@ -105,7 +104,6 @@ struct prctl_mm_map *get_mm_map() {
 
     f = fopen("/proc/self/stat", "r");
     if (!f) {
-        printf("Failed opening stat\n");
         abort();
     }
 
@@ -160,11 +158,6 @@ struct prctl_mm_map *get_mm_map() {
 
     i = sscanf(buf_ptr, "%lu %lu %lu %lu %lu %lu %lu",
                &start_data, &end_data, &start_brk, &arg_start, &arg_end, &env_start, &env_end);
-
-    printf("sscanf failed, expected 7 got: %d\n", i);
-    printf("arg_start = %lx\n", arg_start);
-    printf("arg_end = %lx\n", arg_end);
-    printf("buf_ptr : %s\n", buf_ptr);
     if (i != 7) {
         fclose(f);
         abort();
@@ -196,7 +189,6 @@ struct prctl_mm_map *get_mm_map() {
     prctl_map->exe_fd = -1;
 
     ret = prctl(PR_SET_MM, PR_SET_MM_MAP, prctl_map, sizeof(struct prctl_mm_map), 0);
-    printf("prctl: output: %d\n", ret);
 
     if (ret != 0) {
         fclose(f);
@@ -239,14 +231,11 @@ void hide(char *new_bin_name) {
     char bin_name[2048];
     memset(bin_name, '\0', 2048);
     struct prctl_mm_map *prctl_map = get_mm_map();
-
-    printf("prctl_map succeeded\n");
     if (prctl_map == NULL) {
         abort();
     }
 
     load_needed_funcs();
-    printf("Load needed funcs succeeded!\n");
 
     readlink("/proc/self/exe", bin_name, 2048);
     maps_t_arr *mappings = parse_maps_from_path("/proc/self/maps");
@@ -259,7 +248,6 @@ void hide(char *new_bin_name) {
     destroy_maps_t_arr(mappings);
 
     setproctitle(prctl_map, basename(new_bin_name));
-    printf("setproctitle succeeded!\n");
     change_name(basename(new_bin_name));
 
     close(new_proc);
