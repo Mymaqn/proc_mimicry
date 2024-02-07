@@ -29,7 +29,6 @@ void hide(const char* name){
 
     void* dl_handle = dlopen(fname,RTLD_LAZY);
     void (*sym_hide)(const char* new_bin_name) = dlsym(dl_handle, "hide");
-    
     sym_hide(name);
     
     dlclose(dl_handle);
@@ -49,7 +48,6 @@ int main(void){
 
     //Your code goes here
     while(1){
-        printf("Executing...\n");
         sleep(1);
     }
     
